@@ -22,7 +22,7 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 1, 1000),
             'sku' => $this->faker->unique()->regexify('[A-Z0-9]{10}'),
             'quantity' => $this->faker->numberBetween(0, 1000),
-            'category_id' => Category::factory(),
+            'category_id' => Category::inRandomOrder()->first()->id,
         ];
     }
 }
