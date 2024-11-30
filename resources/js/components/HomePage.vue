@@ -69,7 +69,7 @@
                             <td class="px-6 py-4 text-black whitespace-nowrap">{{ product?.sku }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-green-600 font-bold">${{ product?.price }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
-                                <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mr-2">
+                                <button @click="handleEdit(product.id)" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mr-2">
                                     Edit
                                 </button>
                                 <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
@@ -123,10 +123,11 @@
 import { useProductStore } from "../store/productStore";
 import { useCategoryStore } from "../store/categoryStore";
 import { onMounted, ref, watch } from 'vue'
-
+import { useRouter } from 'vue-router';
 const productStore = useProductStore();
 const currentPage = ref(1);
 const searchQuery = ref('');
+const router = useRouter();
 
 const selectedCategory = ref('');
 
@@ -171,6 +172,13 @@ const handlePageChange = (newPage) => {
         page: newPage,
     })
 }
+
+const handleEdit = (id) => {
+    console.log(id);
+    router.push(`/edit/${id}`);
+}
+
+
 
 </script>
 

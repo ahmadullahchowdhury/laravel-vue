@@ -15,7 +15,6 @@ export const useCategoryStore = defineStore('categoryStore', {
             this.error = null;
             try {
                 const response = await apiClient.get('/categories');
-                console.log('Categories Response:', response.data);
                 this.categories = response.data;
             } catch (error) {
                 this.error = error.response?.data?.message || 'Error fetching categories';

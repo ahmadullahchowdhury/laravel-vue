@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -45,12 +46,7 @@ class ProductController extends Controller
         return new ProductResource($product->load('category'));
     }
 
-    public function update(ProductUpdateRequest $request, Product $product)
-    {
-        $product->update($request->validated());
 
-        return new ProductResource($product);
-    }
 
     public function destroy(Product $product)
     {
@@ -59,22 +55,34 @@ class ProductController extends Controller
         return response()->noContent();
     }
 
-    public function search(Request $request)
+    public function edit($id)
     {
-        $query = $request->input('search'); // Get the 'search' query parameter
-
-        if (!$query) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Search query is required.',
-            ], 400);
-        }
-
-        // Search in the 'name' or 'description' fields of the Product model
-
-        $products = Product::where('name', 'like', '%' . $query . '%')->get();
-        return response()->json($products);
-
-        return ProductResource::collection($products);
+        $product = Product::with('category')->find($id);
+        $categories = Category::all();
+        return response()->json([
+            'product' => $product,
+            'categories' => $categories
+        ]);
     }
+
+    public function update(ProductUpdateRequest $request, Product $product)
+    {
+        try {
+
+            $validatedData = $request->validated();
+            $product->update($validatedData);
+            
+            return response()->json([
+                'message' => 'Product updated successfully',
+                'success' => true
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to update product',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
 }
