@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '../components/HomePage.vue';
-import AboutPage from '../components/AboutPage.vue';
-import NotFound from '../components/NotFound.vue';
+import HomePage from '../pages/HomePage.vue';
+import EditPage from '../pages/EditPage.vue';
+import CreatePage from '../pages/CreatePage.vue';
+import NotFound from '../pages/NotFound.vue';
 
 const routes = [
     { path: '/', component: HomePage },
-    { path: '/about', component: AboutPage },
+    { path: '/edit/:id', component: EditPage },
+    { path: '/create', component: CreatePage },
     { path: '/:pathMatch(.*)*', component: NotFound },
 ];
 
