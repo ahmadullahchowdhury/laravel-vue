@@ -42,3 +42,5 @@ Before you begin, ensure you have the following installed:
    php artisan serve
    npm run dev
    ```
+
+6. Access the application in your browser at `http://localhost:8000 or http://127.0.0.1:8000`   
