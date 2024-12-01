@@ -38,7 +38,10 @@ class ProductController extends Controller
     {
         $product = Product::create($request->validated());
 
-        return new ProductResource($product);
+        return response()->json([
+            'message' => 'Product created successfully',
+            'success' => true
+        ]);
     }
 
     public function show(Product $product)
@@ -50,14 +53,18 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+
         $product->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'message' => 'Product deleted successfully',
+            'success' => true
+        ]);
     }
 
-    public function edit($id)
+    public function edit(Product $product)
     {
-        $product = Product::with('category')->find($id);
+        $product->load('category');
         $categories = Category::all();
         return response()->json([
             'product' => $product,
